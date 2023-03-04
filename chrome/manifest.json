@@ -1,0 +1,25 @@
+{
+  "manifest_version": 2,
+  "name": "Quick Translate",
+  "author": "stxndli",
+  "version": "1.0",
+  "description": "Highlight text while holding the Alt key to quickly get a translation while surfing the web",
+  "icons": {
+    "48": "icons/rabbit-48.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["translate.js"]
+    }
+  ],
+  "options_ui": {
+    "page": "options.html"
+  },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "webNavigation",
+    "https://api.mymemory.translated.net/"
+  ]
+}
