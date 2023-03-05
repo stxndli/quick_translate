@@ -313,7 +313,8 @@ async function translate(src, dest, text) {
             src = langInfo.languages[0].language
         }
         else {
-            src = 'en'
+            el.innerText = `Detect language (can't detect)`
+            return
         }
         el.innerText = `Detect language (${src})`
     }
@@ -338,17 +339,11 @@ document.onmouseup = (e) => {
     const { pageX, pageY } = e
     const triggerKey = getTriggerKey(trigger, e)
     if (selectedText && triggerKey) {
-        textToTranslate = selectedText
         // check if clicked on the translation box, otherwise delete it
-        if (translationContainer) {
-            if (pageX === 0 && pageY === 0) return
-            const { left, top, right, bottom } = translationContainer.getBoundingClientRect()
-            if (pageX < left || pageX > right || pageY < top || pageY > bottom) {
-                translationContainer.remove()
-                translationContainer = null
-            }
-            return
+        if (translationContainer !== null) {
+            translationContainer.remove()
         }
+        textToTranslate = selectedText
         translationContainer = document.createElement('div')
         translationContainer.style.cssText = `
             background: ${color};
@@ -408,15 +403,12 @@ document.onmouseup = (e) => {
     }
     else {
         // check if clicked on the translation box, otherwise delete it
-        if (translationContainer) {
-            if (pageX === 0 && pageY === 0) return
-            const { left, top, right, bottom } = translationContainer.getBoundingClientRect()
-            if (pageX < left || pageX > right || pageY < top || pageY > bottom) {
+        if (translationContainer !== null) {
+            const ids = ["toLang", "fromLang", "textToTranslate", "translatedText"]
+            if (e.target !== translationContainer && e.target.tagName !== "OPTION" && !ids.includes(e.target.id)) {
                 translationContainer.remove()
                 translationContainer = null
             }
-            return
         }
-
     }
 }
